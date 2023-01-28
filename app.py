@@ -1,7 +1,9 @@
 from flask import Flask, request, redirect
+# from flask_ngrok import run_with_ngrok
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
+# run_with_ngrok(app)
 
 """
 @app.route("/sms", methods=['GET', 'POST'])
@@ -18,7 +20,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 """
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def hello():
   return "Hello World!"
 
