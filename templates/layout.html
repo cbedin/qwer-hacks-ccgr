@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NAME OF PROJECT</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}">
+  </head>
+  <body>
+    <header>
+        <a href="{{ url_for('upload') }}">PixelKnit: Pixelate images for needle arts</a>
+    </header>
+    <div id="main">
+        {% block content %}
+        {% endblock %}
+    </div>
+  </body>
+</html>
