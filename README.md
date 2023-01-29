@@ -8,13 +8,13 @@ Police violently engage with houseless folks in LA, evicting them and destroying
 
 
 ## How to install and run locally
-
 - Run flask run
 - Make accounts through Twilio and ngrock (temporary server, as it is not currently hosted on a server). Use this tutorial to link: https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-python
+- more steps tbc
 
 ## How to use
 - Text the number set up through Twilio an image and a pin of your location (in either order) in order for it to be validated (through a classifier) and mapped 
-- Use map drop down box to either look at reports to police of homeless encampments; or live updates regarding police sitings in your area
+- Use map drop down box to either look at reports to police of homeless encampments; or live updates regarding police sightings in your area
 
 ## How we built it
 *Front end* 
@@ -30,7 +30,9 @@ Mapping: dataframes Text service:
 - The classification model currently classifies pics as 'car'/'not car' rather than 'police'/'not police' and needs to be trained on police data
 - The classifier currently only can deal with (32 x 32 x 3) images. Needs to be changed so that it can cope with images of various dimentions
 - The ability to filter for time period (last month, last 6 months, etc) is not yet fully built out
-- Need for 
+- Need for better visual representation of density
+- Would be good to overlay different filters
+- Want to include more data/data sources e.g. reports of violence against houseless folk
 
 
 ## to develop:
@@ -39,6 +41,8 @@ Mapping: dataframes Text service:
 python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install -r requirements.txt
+
+#more needed here
 ```
 
 
