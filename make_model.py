@@ -1,7 +1,9 @@
 #Load CIFAR10
 CIFAR10_dataset = tf.keras.datasets.cifar10.load_data()
- 
 (train_images, train_labels), (test_images, test_labels) = CIFAR10_dataset
+
+new_train_labels = (train_labels == 1) + 0
+new_test_labels = (test_labels == 1) + 0
 
 #name the classes 
 class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
@@ -20,10 +22,10 @@ model = tf.keras.Sequential([
 model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-model.fit(train_images, train_labels, epochs=10)
+model.fit(train_images, new_train_labels, epochs=10)
 
 #evaluate model
-test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
+test_loss, test_acc = model.evaluate(test_images,  new_test_labels, verbose=2)
 
 print('\nTest accuracy:', test_acc)
 
