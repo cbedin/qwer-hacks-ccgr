@@ -26,6 +26,8 @@ def sms_reply():
         img_url = request.values.get('MediaUrl0', '')
         file_name = f"img{hash(img_url)}.jpeg"
         img_data = requests.get(img_url).content
+        if not os.path.exists('static/imgs'):
+            os.makedirs("static/imgs")
         with open(f'static/imgs/{file_name}', 'wb') as handler:
             handler.write(img_data)
         sighting['File_Name'] = file_name
@@ -35,9 +37,12 @@ def sms_reply():
     if 'File_Name' in sighting and 'Latitude' in sighting:
         sighting['Time'] = datetime.datetime.now()
         sighting['Class'] = 'U'
-        if not os.path.exists('static/imgs'):
-            os.makedirs("static/imgs")
-        with open('static/img_data.csv', 'a+') as img_data_file:
+        fields = ['File_Name', 'Latitude', 'Longitude', 'Time', 'Class']
+        if not os.path.exists('static/img_data.csv'):
+            with open('static/img_data.csv', 'w+') as img_data_file:
+                img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
+                img_data_writer.writeheader()
+        with open('static/img_data.csv', 'a') as img_data_file:
             fields = ['File_Name', 'Latitude', 'Longitude', 'Time', 'Class']
             img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
             img_data_writer.writerow(sighting)
