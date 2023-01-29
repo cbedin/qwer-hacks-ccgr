@@ -5,10 +5,11 @@ import json
 import re
 import csv
 import datetime
+import os
 
 app = Flask(__name__)
 
-@app.route("/sms", methods=['GET', 'POST'])
+@app.route("/sms", methods=['POST'])
 def sms_reply():
     with open('static/sighting.json', 'r') as f:
         sighting = json.load(f)
@@ -33,6 +34,8 @@ def sms_reply():
     if 'File_Name' in sighting and 'Latitude' in sighting:
         sighting['Time'] = datetime.datetime.now()
         sighting['Class'] = 'U'
+        if not os.path.exists('static/imgs'):
+            os.makedirs("static/imgs")
         with open('static/img_data.csv', 'a+') as img_data_file:
             fields = ['File_Name', 'Latitude', 'Longitude', 'Time', 'Class']
             img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
