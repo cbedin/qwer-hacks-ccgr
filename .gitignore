@@ -4,3 +4,4 @@
 __pycache__
 static/imgs/*
 static/img_data.csv
+venv
