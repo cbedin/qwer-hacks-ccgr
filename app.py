@@ -13,8 +13,13 @@ import datetime
 import os
 from run_model import update_predictions
 
+SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+  return render_template('hacks.html')
 
 @app.route("/sms", methods=['POST'])
 def sms_reply():
@@ -68,11 +73,9 @@ def hacks():
   }
   return render_template("hacks.html", **context)
 
-@app.route('/maptest')
+@app.route('/maptest', )
 def maptest():
-  # nybb = geopandas.read_file(geopandas.datasets.get_path('nybb'))
-  # world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
-  # cities = geopandas.read_file(geopandas.datasets.get_path('naturalearth_cities'))
+  # if 
 
   df = pd.read_csv("/Users/richardkhillah/Developer/qwerhacks/qwer-hacks-ccgr/311_Homeless_Encampments_Requests_1.csv")
 
@@ -89,8 +92,23 @@ def maptest():
 
   m.save( os.path.join('static', spath) )
 
+  dataset_dropdown = {
+    0: 'Filter1',
+    1: 'Filter2',
+    2: 'Filter3',
+  }
+
+  timeframe_dropdown = {
+    0: "1 Month",
+    1: "3 Month",
+    2: "6 Month",
+    3: "12 Month",
+  }
+
   context = {
     "map_url": spath,
+    "dataset_dropdown": dataset_dropdown,
+    "timeframe_dropdown": timeframe_dropdown,
   }
 
   return render_template('maptest.html', **context)
