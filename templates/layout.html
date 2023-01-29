@@ -1,16 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
   <head>
-    <title>NAME OF PROJECT</title>
+
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}">
+    <meta name ="viewport" content = "width=device-width, intial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Spotlight.</title>
+
   </head>
   <body>
-    <header>
-    </header>
-    <div id="main">
+    <section class="showcase">
+      
+      <div class="video-container">
+        <video src="static/homefilm.mp4" style="height: 500px; width: 500px;" autoplay muted loop></video>
+      </div>
+      <div class="context" style="z-index: 10;">
+        <h1>Spotlight</h1>
+        <h3>Mapping police activity in Los Angeles</h3>
+        <a href="#about-me" class="btn">Check it out!</a>
+        </div>
+      </section>
+      <!--<section class="about-me">
+        <h1><u>About</u></h1>
+        <p>
+          <h1>Problem</h1>
+          <h3>Police violently engage with houseless folks in LA, evicting them and destroying their possessions. LGBTQ+ people are disproportionately affected by police violence, both because queer people are more likely to be unhoused, and because of transphobia and homophobia. 
+            While word of mouth and social resources are important sources of information, there is currently no centralized open online resource where folks can see where police activity is most present. This inhibits peoples’ ability to make decisions for their safety from police violence, as well as limits activists’ ability to have a sense of what police involvement is happening over time and where. </h3>
+          <h1>Our response</h1>
+          <h3>The tool we have created in response to this is a web page that maps police activity in regards to houselessness. Mapping is an incredibly powerful tool. It makes information more accessible by allowing people to easily visualise issues, arming folks with powerful information to make decisions for themselves. 
+            The web page we have created provides two functions:
+            Firstly, it collates instances of police activity around homelessness from data made available by the city of LA: including reports citizens have made calling police to investigate homeless encampments; and instances of crime where unhoused folk are the victims.
+            Secondly, it allows people to give realtime updates about the location of police through sending photos to a number. The photos will then be classified as either containing police or not, and then will be mapped accordingly</h3>
+          </p>
+      </section>
+    -->
+
         {% block content %}
         {% endblock %}
+
     </div>
   </body>
 </html>
