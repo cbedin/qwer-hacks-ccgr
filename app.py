@@ -1,26 +1,49 @@
 from flask import Flask, request, redirect
-# from flask_ngrok import run_with_ngrok
 from twilio.twiml.messaging_response import MessagingResponse
+import requests
+import json
+import re
+import csv
+import datetime
 
 app = Flask(__name__)
-# run_with_ngrok(app)
 
-"""
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
-    # Start our TwiML response
-    resp = MessagingResponse()
+    with open('static/sighting.json', 'r') as f:
+        sighting = json.load(f)
 
-    # Add a message
-    resp.message("The Robots are coming! Head for the hills!")
+    if request.values.get('Body', ''):
+        m = re.fullmatch(r'.*google.com.*/(-?\d+\.\d+)\+(-?\d+\.\d+)/.*', request.values.get('Body'))
+        if m:
+            sighting['Latitude'] = m.group(1)
+            sighting['Longitude'] = m.group(2)
+        else:
+            return "Invalid message"
+    elif request.values.get('MediaUrl0', ''):
+        img_url = request.values.get('MediaUrl0', '')
+        img_hash = hash(img_url)
+        img_data = requests.get(img_url).content
+        with open(f'static/imgs/{img_hash}.jpeg', 'wb') as handler:
+            handler.write(img_data)
+        sighting['Img_Hash'] = img_hash
+    else:
+        return "Invalid message"
 
-    return str(resp)
+    if 'Img_Hash' in sighting and 'Latitude' in sighting:
+        sighting['Time'] = datetime.datetime.now()
+        sighting['Class'] = 'U'
+        with open('static/img_data.csv', 'a') as img_data_file:
+            img_data_writer = csv.DictWriter(img_data_file, fieldnames=['Img_Hash', 'Latitude', 'Longitude', 'Time', 'Class'])
+            img_data_writer.writerow(sighting)
+        sighting = dict()
 
-if __name__ == "__main__":
-    app.run(debug=True)
-"""
+    with open('static/sighting.json', 'w') as f:
+        json.dump(sighting, f)
 
-@app.route("/", methods=['GET', 'POST'])
+    return "Message processed"
+
+@app.route("/")
 def hello():
   return "Hello World!"
 
