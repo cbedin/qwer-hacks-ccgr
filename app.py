@@ -76,8 +76,8 @@ def hacks():
 @app.route('/maptest', methods=['GET', 'POST'])
 def maptest():
   DATASET_LOOKUP = {  
-    'Encampment Reports': '/Users/richardkhillah/Developer/qwerhacks/qwer-hacks-ccgr/311_Homeless_Encampments_Requests_1.csv',
-    'Police Sightings': '/Users/richardkhillah/Developer/qwerhacks/qwer-hacks-ccgr/static/img_data.csv',
+    'Encampment Reports': '311_Homeless_Encampments_Requests_1.csv',
+    'Police Sightings': 'static/img_data.csv',
   }
 
   dataset_dropdown = {
