@@ -7,30 +7,30 @@ Police violently engage with houseless folks in LA, evicting them and destroying
 2. Current police presence – through a photo text-in service
 
 
-## How to install and run
-tbc
+## How to install and run locally
+
+- Run flask run
+- Make accounts through Twilio and ngrock (temporary server, as it is not currently hosted on a server). Use this tutorial to link: https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-python
 
 ## How to use
-tbc
+- Text the number set up through Twilio an image and a pin of your location (in either order) in order for it to be validated (through a classifier) and mapped 
+- Use map drop down box to either look at reports to police of homeless encampments; or live updates regarding police sitings in your area
 
 ## How we built it
 *Front end* 
 We used bootstrap CSS, html and geopandas for map visualization
+
 *Back end* 
 Mapping: dataframes Text service:
 - Receives text messages through Twilio
 - Convolutional neural network classifier with PyTorch to verify submitted photos as police/not police
 
-## Challenges we ran into
-- connecting sms messaging into web app
-- integrating neural network model into web app
-- generating interactive map
-- having to move between languages and therefore sorting out the dependencies
-- plotting data
-- data consistency
-- sourcing data of police interactions
-- generating training data for the classification model (we didn't end up to being able to scrape enough police image data in the time frame to train a model, so we used a generic dataset)
-- creating an application that seemly combines all these features
+## Where things are currently at/need for future development
+- It isn't hosted on a server
+- The classification model currently classifies pics as 'car'/'not car' rather than 'police'/'not police' and needs to be trained on police data
+- The classifier currently only can deal with (32 x 32 x 3) images. Needs to be changed so that it can cope with images of various dimentions
+- The ability to filter for time period (last month, last 6 months, etc) is not yet fully built out
+- Need for 
 
 
 ## to develop:
