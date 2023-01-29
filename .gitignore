@@ -2,4 +2,5 @@
 .ipynb_checkpoints
 .DS_Store
 __pycache__
-imgs/*
+static/imgs/*
+static/img_data.csv

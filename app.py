@@ -22,19 +22,20 @@ def sms_reply():
             return "Invalid message"
     elif request.values.get('MediaUrl0', ''):
         img_url = request.values.get('MediaUrl0', '')
-        img_hash = hash(img_url)
+        file_name = f"img{hash(img_url)}.jpeg"
         img_data = requests.get(img_url).content
-        with open(f'static/imgs/{img_hash}.jpeg', 'wb') as handler:
+        with open(f'static/imgs/{file_name}', 'wb') as handler:
             handler.write(img_data)
-        sighting['Img_Hash'] = img_hash
+        sighting['File_Name'] = file_name
     else:
         return "Invalid message"
 
-    if 'Img_Hash' in sighting and 'Latitude' in sighting:
+    if 'File_Name' in sighting and 'Latitude' in sighting:
         sighting['Time'] = datetime.datetime.now()
         sighting['Class'] = 'U'
-        with open('static/img_data.csv', 'a') as img_data_file:
-            img_data_writer = csv.DictWriter(img_data_file, fieldnames=['Img_Hash', 'Latitude', 'Longitude', 'Time', 'Class'])
+        with open('static/img_data.csv', 'a+') as img_data_file:
+            fields = ['File_Name', 'Latitude', 'Longitude', 'Time', 'Class']
+            img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
             img_data_writer.writerow(sighting)
         sighting = dict()
 
