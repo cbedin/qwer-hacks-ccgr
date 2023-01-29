@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-  return render_template('hacks.html')
+  return render_template('layout.html')
 
 @app.route("/sms", methods=['POST'])
 def sms_reply():
@@ -73,11 +73,46 @@ def hacks():
   }
   return render_template("hacks.html", **context)
 
-@app.route('/maptest', )
+@app.route('/maptest', methods=['GET', 'POST'])
 def maptest():
-  # if 
+  DATASET_LOOKUP = {  
+    'Encampment Reports': '/Users/richardkhillah/Developer/qwerhacks/qwer-hacks-ccgr/311_Homeless_Encampments_Requests_1.csv',
+    'Police Sightings': '/Users/richardkhillah/Developer/qwerhacks/qwer-hacks-ccgr/static/img_data.csv',
+  }
 
-  df = pd.read_csv("/Users/richardkhillah/Developer/qwerhacks/qwer-hacks-ccgr/311_Homeless_Encampments_Requests_1.csv")
+  dataset_dropdown = {
+    0: 'Encampment Reports',
+    1: 'Police Sightings',
+  }
+
+  timeframe_dropdown = {
+    0: "1 Month",
+    1: "3 Month",
+    2: "6 Month",
+    3: "12 Month",
+  }
+
+  # Default
+  dataset = DATASET_LOOKUP['Encampment Reports']
+  
+  if request.method == "POST":
+    param = request.form['dataset']
+    try:
+      key = dataset_dropdown[int(param)]
+      print(key)
+      if key in DATASET_LOOKUP:
+        dataset = DATASET_LOOKUP[key]
+    
+      print(dataset)
+
+    except:
+      print('failing with big depression')
+
+  df = pd.read_csv(dataset)
+
+  # manipulation for dataset = img_data.csv
+  if dataset == DATASET_LOOKUP['Police Sightings']:
+    df = df[df['Class'] == 1]
 
   gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.Longitude, df.Latitude), crs=4326)
 
@@ -91,19 +126,6 @@ def maptest():
   spath = "maps/base_map.html"
 
   m.save( os.path.join('static', spath) )
-
-  dataset_dropdown = {
-    0: 'Filter1',
-    1: 'Filter2',
-    2: 'Filter3',
-  }
-
-  timeframe_dropdown = {
-    0: "1 Month",
-    1: "3 Month",
-    2: "6 Month",
-    3: "12 Month",
-  }
 
   context = {
     "map_url": spath,

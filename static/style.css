@@ -11,7 +11,8 @@
     padding: 0;
 }
 body{
-    font-family: 'Roboto Mono YO!', roboto-mono;
+    /* font-family: 'Roboto Mono', roboto-mono; */
+    font-family: 'Roboto Mono', monospace;
     line-height:1.5;
 }
 a {
@@ -23,10 +24,11 @@ a {
 
 h1 {
     font-weight: 2000;
-    font-size: 150px;
+    font-size: 150px !important;
     line-height:1.2;
     margin-bottom: 15px;
 }
+
 h3{
     font-weight: 150;
     font-size: 30px;
@@ -78,7 +80,7 @@ h3{
     background: rgba(255, 255, 255, 0.9);
 }
 /*button at beginning of site*/
-.btn{
+.my-btn{
     display: inline-block;
     padding: 10px 30px;
     background: rgb(0,0,0,0);
@@ -86,8 +88,9 @@ h3{
     border: 2.5px rgb(255, 255, 255) solid;
     border-radius: 5px;
     margin-top: 25px;
+    text-decoration: none;
 }
-btn:hover {
+.my-btn:hover {
     transform: scale(0.95);
 }
 .about-me {
@@ -102,4 +105,20 @@ btn:hover {
 .about-me h2 {
     margin: 30px 0;
     color: var(--primary-color);
+}
+
+.bg-light-blue {
+    /* background-color: rgb(128, 147, 173); */
+    background-color: #91A1B5;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.map-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 10; 
+    min-height: 100vh;
 }
