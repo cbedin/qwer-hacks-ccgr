@@ -1,22 +1,58 @@
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
+import requests
+import json
+import re
+import csv
+import datetime
+import os
+from run_model import update_predictions
 
 app = Flask(__name__)
 
-"""
-@app.route("/sms", methods=['GET', 'POST'])
+@app.route("/sms", methods=['POST'])
 def sms_reply():
-    # Start our TwiML response
-    resp = MessagingResponse()
+    with open('static/sighting.json', 'r') as f:
+        sighting = json.load(f)
 
-    # Add a message
-    resp.message("The Robots are coming! Head for the hills!")
+    if request.values.get('Body', ''):
+        m = re.fullmatch(r'.*google.com.*/(-?\d+\.\d+)\+(-?\d+\.\d+)/.*', request.values.get('Body'))
+        if m:
+            sighting['Latitude'] = m.group(1)
+            sighting['Longitude'] = m.group(2)
+        else:
+            return "Invalid message"
+    elif request.values.get('MediaUrl0', ''):
+        img_url = request.values.get('MediaUrl0', '')
+        file_name = f"img{hash(img_url)}.jpeg"
+        img_data = requests.get(img_url).content
+        if not os.path.exists('static/imgs'):
+            os.makedirs("static/imgs")
+        with open(f'static/imgs/{file_name}', 'wb') as handler:
+            handler.write(img_data)
+        sighting['File_Name'] = file_name
+    else:
+        return "Invalid message"
 
-    return str(resp)
+    if 'File_Name' in sighting and 'Latitude' in sighting:
+        sighting['Time'] = datetime.datetime.now()
+        sighting['Class'] = 'U'
+        fields = ['File_Name', 'Latitude', 'Longitude', 'Time', 'Class']
+        if not os.path.exists('static/img_data.csv'):
+            with open('static/img_data.csv', 'w+') as img_data_file:
+                img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
+                img_data_writer.writeheader()
+        with open('static/img_data.csv', 'a') as img_data_file:
+            fields = ['File_Name', 'Latitude', 'Longitude', 'Time', 'Class']
+            img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
+            img_data_writer.writerow(sighting)
+        sighting = dict()
+        update_predictions()
 
-if __name__ == "__main__":
-    app.run(debug=True)
-"""
+    with open('static/sighting.json', 'w') as f:
+        json.dump(sighting, f)
+
+    return "Message processed"
 
 @app.route("/")
 def hello():
