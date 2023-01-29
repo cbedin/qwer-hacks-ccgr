@@ -6,6 +6,7 @@ import re
 import csv
 import datetime
 import os
+from run_model import update_predictions
 
 app = Flask(__name__)
 
@@ -41,6 +42,7 @@ def sms_reply():
             img_data_writer = csv.DictWriter(img_data_file, fieldnames=fields)
             img_data_writer.writerow(sighting)
         sighting = dict()
+        update_predictions()
 
     with open('static/sighting.json', 'w') as f:
         json.dump(sighting, f)
