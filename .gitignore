@@ -5,3 +5,5 @@ __pycache__
 static/imgs/*
 static/img_data.csv
 venv
+311_Homeless_Encampments_Requests.csv
+311_Homeless_Encampments_Requests_1.csv
